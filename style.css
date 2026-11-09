@@ -654,3 +654,249 @@ input:focus-visible {
 }
 
 
+
+
+/* =================================================
+   🎹 MODO HORIZONTAL PARA TODA LA APLICACIÓN
+   Gira TODA la página cuando el celular está vertical
+================================================= */
+
+@media screen and (max-width: 650px) and (orientation: portrait) {
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden !important;
+  }
+
+  /* Girar la aplicación completa */
+  .piano-app {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100dvh !important;
+    height: 100vw !important;
+
+    max-width: none !important;
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 8px !important;
+
+    border-radius: 0 !important;
+
+    transform-origin: top left;
+    transform: rotate(90deg) translateY(-100%);
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Encabezado */
+  .top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    min-height: 40px;
+    padding: 3px 8px 8px;
+  }
+
+  .logo {
+    width: auto;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  .logo-icon {
+    font-size: 23px;
+  }
+
+  .display {
+    padding: 6px 10px;
+    font-size: 9px;
+  }
+
+  /* Controles en horizontal */
+  .control-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 8px;
+    margin: 8px 0;
+    padding: 8px;
+  }
+
+  .control-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .control-btn {
+    width: 38px;
+    height: 35px;
+  }
+
+  .slider-control {
+    min-width: 85px;
+    max-width: 120px;
+    font-size: 8px;
+    gap: 4px;
+  }
+
+  input[type="range"] {
+    width: 90px;
+  }
+
+  .sustain-control {
+    font-size: 9px;
+    gap: 5px;
+  }
+
+  /* Metrónomo */
+  .metronome-panel {
+    margin: 8px 0;
+    padding: 9px;
+  }
+
+  .metro-title {
+    margin-bottom: 7px;
+    font-size: 10px;
+  }
+
+  .metro-controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .metro-button {
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+
+  #bpm {
+    min-width: 70px;
+  }
+
+  /* Clases */
+  .lessons-panel {
+    margin: 8px 0;
+    padding: 10px;
+  }
+
+  .lesson-heading {
+    margin-bottom: 9px;
+  }
+
+  .lesson-heading h2 {
+    font-size: 16px;
+  }
+
+  .lesson-subtitle {
+    font-size: 8px;
+  }
+
+  .chord-select {
+    padding: 9px;
+    font-size: 12px;
+  }
+
+  .hand-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-top: 9px;
+  }
+
+  .hand-btn {
+    padding: 8px 3px;
+    font-size: 9px;
+  }
+
+  .chord-information {
+    margin-top: 9px;
+    padding: 10px;
+  }
+
+  .chord-information h3 {
+    font-size: 16px;
+  }
+
+  #chordNotes {
+    font-size: 17px;
+  }
+
+  #fingerInfo {
+    font-size: 10px;
+  }
+
+  .chord-actions {
+    flex-direction: row;
+    margin-top: 8px;
+  }
+
+  .chord-actions button {
+    padding: 9px 5px;
+    font-size: 10px;
+  }
+
+  .lesson-tip {
+    font-size: 10px;
+  }
+
+  /* Teclado completo */
+  .keyboard-frame {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .keyboard-top {
+    padding-bottom: 7px;
+    font-size: 9px;
+  }
+
+  .piano-container {
+    width: 100%;
+    overflow: hidden !important;
+    padding: 2px 0 5px;
+  }
+
+  .keyboard {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: clamp(105px, 35vw, 180px);
+    overflow: hidden;
+  }
+
+  .white-key {
+    min-width: 0;
+  }
+
+  .black-key {
+    width: 2.15%;
+    height: 62%;
+  }
+
+  .key-label {
+    font-size: 7px;
+    bottom: 4px;
+  }
+
+  #status {
+    font-size: 9px;
+    margin: 4px 0;
+  }
+}
+
+
