@@ -1,610 +1,479 @@
 
-:root {
-  --gold: #e8bd63;
-  --gold-light: #ffe4a1;
-  --background: #090c13;
-  --panel: #151a24;
-  --border: #303746;
-}
+/* =====================================================
+   🎹 ADAPTACIÓN PROFESIONAL PARA CELULARES Y TABLETS
+   Pegar COMPLETO al FINAL de style.css
+===================================================== */
 
-* {
-  box-sizing: border-box;
+/* Evitar desbordamientos */
+html {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  padding: 25px 16px;
-  background:
-    radial-gradient(ellipse at 50% 0%, #263348 0%, transparent 55%),
-    linear-gradient(145deg, #080b11, #111927 60%, #080b11);
-  color: #fff;
-  font-family: Arial, sans-serif;
+  width: 100%;
+  min-width: 320px;
+  overflow-x: hidden;
+  padding: clamp(6px, 2vw, 25px);
 }
 
+/* Aplicación principal */
 .piano-app {
   width: 100%;
   max-width: 1250px;
-  margin: auto;
-  padding: 22px;
-  background: linear-gradient(145deg, #1b222e, #10151e);
-  border: 1px solid #394252;
-  border-radius: 18px;
-  box-shadow:
-    0 25px 70px #0009,
-    inset 0 1px 0 #ffffff12;
+  margin: 0 auto;
+  padding: clamp(10px, 2vw, 22px);
+  border-radius: clamp(10px, 2vw, 18px);
 }
 
+/* Encabezado */
 .top-bar {
-  min-height: 65px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 0 8px 18px;
-  border-bottom: 1px solid #ffffff13;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--gold);
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 3px;
-}
-
-.logo-icon {
-  font-size: 34px;
+  min-width: 0;
 }
 
 .display {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 10px 17px;
-  border: 1px solid #354334;
-  border-radius: 7px;
-  background: #080e0b;
-  color: #a5e6a0;
-  font-family: monospace;
-  font-size: 12px;
-  letter-spacing: 2px;
+  white-space: nowrap;
 }
 
-.led {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #70e58b;
-  box-shadow: 0 0 10px #70e58b;
-}
-
+/* Panel de controles */
 .control-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 28px;
-  margin: 22px 0;
-  padding: 20px;
-  background: linear-gradient(180deg, #202938, #151b25);
-  border: 1px solid #394454;
-  border-radius: 12px;
-  box-shadow: inset 0 2px 8px #0005;
+  width: 100%;
+  gap: clamp(12px, 2vw, 28px);
 }
 
 .control-buttons {
-  display: flex;
-  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .control-btn {
-  width: 48px;
-  height: 43px;
-  border: 1px solid #ffffff20;
-  border-radius: 9px;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  transition: .18s;
-}
-
-.play-btn {
-  background: linear-gradient(145deg, #d6aa4c, #92702f);
-  box-shadow: 0 4px 12px #d6aa4c25;
-}
-
-.stop-btn {
-  background: linear-gradient(145deg, #444d5b, #252c37);
-}
-
-.control-btn:hover {
-  filter: brightness(1.25);
-  transform: translateY(-2px);
-}
-
-.control-btn:active {
-  transform: scale(.94);
+  min-width: 46px;
+  min-height: 44px;
+  touch-action: manipulation;
 }
 
 .slider-control {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-width: 130px;
-  color: #c5ccd8;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 2px;
+  flex: 1 1 120px;
 }
 
 input[type="range"] {
-  width: 145px;
-  height: 5px;
-  accent-color: var(--gold);
-  cursor: pointer;
+  max-width: 100%;
+  min-height: 25px;
+  touch-action: pan-y;
 }
 
 .sustain-control {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--gold-light);
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  cursor: pointer;
+  min-height: 40px;
 }
 
-.sustain-control input {
-  width: 17px;
-  height: 17px;
-  accent-color: var(--gold);
-  cursor: pointer;
+/* Metrónomo */
+.metronome-panel {
+  width: 100%;
 }
 
+.metro-controls {
+  width: 100%;
+}
+
+.metro-button {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+.metro-lights {
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Panel de clases */
+.lessons-panel {
+  width: 100%;
+  min-width: 0;
+}
+
+.lesson-heading {
+  flex-wrap: wrap;
+}
+
+.lesson-heading h2 {
+  overflow-wrap: anywhere;
+}
+
+.chord-select {
+  min-height: 48px;
+  max-width: 100%;
+}
+
+.hand-btn,
+.chord-actions button {
+  min-height: 46px;
+  touch-action: manipulation;
+}
+
+.chord-information {
+  overflow-wrap: anywhere;
+}
+
+#chordNotes {
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Teclado */
 .keyboard-frame {
-  padding: 17px;
-  border: 1px solid #414b5b;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #252e3b, #111720);
-  box-shadow: 0 12px 30px #0006;
-}
-
-.keyboard-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 5px 14px;
-  color: #b5bdca;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-.keyboard-top span:last-child {
-  color: var(--gold);
+  width: 100%;
+  min-width: 0;
 }
 
 .piano-container {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
-  padding: 5px 2px 12px;
-  scrollbar-color: #9c7b42 #111720;
-  scrollbar-width: thin;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
 }
 
 .keyboard {
-  position: relative;
-  display: flex;
-  width: 100%;
   min-width: 760px;
-  height: 285px;
-  overflow: hidden;
-  background: #050505;
-  border: 5px solid #080a0e;
-  border-radius: 7px;
-  box-shadow:
-    0 12px 22px #0009,
-    inset 0 2px 5px #ffffff18;
-  touch-action: none;
+  touch-action: pan-x;
+}
+
+/* Evitar selección accidental al tocar */
+.white-key,
+.black-key,
+.control-btn,
+.metro-button,
+.hand-btn,
+.chord-actions button {
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
+  -webkit-user-select: none;
 }
 
-.white-key {
-  position: relative;
-  flex: 1;
-  height: 100%;
-  z-index: 1;
-  cursor: pointer;
-  border: 1px solid #b4b4b4;
-  border-radius: 0 0 5px 5px;
-  background: linear-gradient(
-    90deg,
-    #d9d9d9 0%,
-    #fff 15%,
-    #f9f9f9 75%,
-    #d5d5d5 100%
-  );
-  box-shadow: inset 0 -5px 5px #00000013;
-  transition: background .07s, box-shadow .07s;
-}
-
-.white-key.active {
-  background: linear-gradient(
-    to bottom,
-    #fff0bd,
-    #f5d17b 75%,
-    #c69a43
-  );
-  box-shadow:
-    inset 0 0 12px #d99b27aa,
-    inset 0 -5px 5px #9b6c20;
-}
-
-.black-key {
-  position: absolute;
-  top: 0;
-  width: 2.15%;
-  height: 62%;
-  z-index: 3;
-  transform: translateX(-50%);
-  cursor: pointer;
-  border: 1px solid #000;
-  border-radius: 0 0 5px 5px;
-  background: linear-gradient(
-    90deg,
-    #080808,
-    #343434 25%,
-    #151515 75%,
-    #050505
-  );
-  box-shadow:
-    inset 0 -5px 5px #000,
-    inset 0 1px 2px #ffffff50,
-    0 5px 7px #000a;
-  transition: background .07s, box-shadow .07s;
-}
-
-.black-key.active {
-  background: linear-gradient(
-    90deg,
-    #76501a,
-    #f5d17b 45%,
-    #8b641e
-  );
-  box-shadow:
-    inset 0 -5px 5px #74501a,
-    0 3px 7px #000a,
-    0 0 12px #e8bd6355;
-}
-
-.key-label {
-  position: absolute;
-  right: 0;
-  bottom: 10px;
-  left: 0;
-  color: #777;
-  font-size: 10px;
-  pointer-events: none;
-}
-
-.black-key .key-label {
-  display: none;
-}
-
-#status {
-  min-height: 15px;
-  color: #a5e6a0;
-  font-family: monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-align: center;
-}
+/* =====================================================
+   CELULARES GRANDES
+===================================================== */
 
 @media (max-width: 650px) {
+
   body {
-    padding: 8px;
+    padding: 6px;
   }
 
   .piano-app {
-    padding: 12px;
+    padding: 10px;
+    border-radius: 13px;
+  }
+
+  .top-bar {
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+    padding: 8px 3px 15px;
   }
 
   .logo {
-    font-size: 14px;
-    letter-spacing: 1px;
+    justify-content: center;
+    width: 100%;
+    font-size: 15px;
+    letter-spacing: 1.5px;
   }
 
   .logo-icon {
     font-size: 27px;
   }
 
+  .display {
+    justify-content: center;
+    padding: 9px 13px;
+    font-size: 11px;
+  }
+
   .control-panel {
-    gap: 20px;
-    padding: 15px 8px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+    padding: 14px 10px;
+    margin: 14px 0;
+  }
+
+  .control-buttons {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .control-btn {
+    width: 52px;
+    height: 46px;
+  }
+
+  .slider-control {
+    width: 100%;
+    min-width: 0;
+    gap: 7px;
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+  }
+
+  .sustain-control {
+    grid-column: 1 / -1;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .metronome-panel {
+    margin: 14px 0;
+    padding: 14px 11px;
+  }
+
+  .metro-title {
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .metro-controls {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 13px;
+  }
+
+  .metro-button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  #bpm {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .metro-lights {
+    gap: 7px;
+  }
+
+  .metro-light {
+    width: 10px;
+    height: 10px;
+  }
+
+  .lessons-panel {
+    margin: 15px 0;
+    padding: 14px 11px;
+    border-radius: 12px;
+  }
+
+  .lesson-heading {
+    margin-bottom: 17px;
+  }
+
+  .lesson-heading h2 {
+    font-size: 18px;
+  }
+
+  .lesson-subtitle {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+  }
+
+  .lesson-level {
+    font-size: 9px;
+    padding: 6px 9px;
+  }
+
+  .lesson-label {
+    font-size: 10px;
+  }
+
+  .chord-select {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  /* Tres botones en una sola fila */
+  .hand-selector {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    margin-top: 13px;
+  }
+
+  .hand-btn {
+    padding: 11px 3px;
+    font-size: 9px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .chord-information {
+    margin-top: 15px;
+    padding: 15px 9px;
+  }
+
+  .chord-information h3 {
+    font-size: 18px;
+  }
+
+  #chordNotes {
+    font-size: 20px;
+  }
+
+  #fingerInfo {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .chord-actions {
+    flex-direction: row;
+    gap: 7px;
+  }
+
+  .chord-actions button {
+    padding: 12px 5px;
+    font-size: 11px;
+  }
+
+  .lesson-tip {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .keyboard-frame {
+    padding: 10px 7px;
+  }
+
+  .keyboard-top {
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding-bottom: 10px;
   }
 
   .keyboard {
-    height: 220px;
+    height: 190px;
+    min-width: 760px;
   }
 
   .black-key {
     width: 2.6%;
+    height: 61%;
   }
 
-  .slider-control {
-    min-width: 115px;
+  .key-label {
+    font-size: 9px;
+    bottom: 7px;
   }
 
-  input[type="range"] {
-    width: 120px;
+  #status {
+    font-size: 10px;
+    letter-spacing: 1px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
   }
 }
 
+/* =====================================================
+   CELULARES PEQUEÑOS
+===================================================== */
 
-.song-btn {
-  background: linear-gradient(145deg, #e8bd63, #a87927);
-  color: #17120a;
-  font-size: 23px;
-  box-shadow: 0 4px 15px #e8bd6340;
-}
+@media (max-width: 380px) {
 
-.song-btn:hover {
-  filter: brightness(1.2);
-  transform: translateY(-2px);
-}
+  .piano-app {
+    padding: 8px;
+  }
 
+  .logo {
+    font-size: 13px;
+  }
 
-/* METRÓNOMO */
-.metronome-panel {
-  margin: 18px 0;
-  padding: 18px;
-  background: linear-gradient(145deg, #151d2c, #0b111d);
-  border: 1px solid #34445d;
-  border-radius: 14px;
-  box-shadow: 0 8px 25px #0005;
-}
+  .control-panel {
+    padding: 11px 7px;
+    gap: 12px 7px;
+  }
 
-.metro-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #e8bd63;
-  font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
-}
-
-#bpmValue {
-  color: #fff;
-  font-size: 16px;
-}
-
-.metro-controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.metro-button {
-  border: 0;
-  border-radius: 8px;
-  padding: 12px 18px;
-  background: linear-gradient(145deg, #e8bd63, #a87927);
-  color: #17120a;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.metro-button:hover {
-  filter: brightness(1.15);
-}
-
-#bpm {
-  flex: 1;
-  min-width: 120px;
-  accent-color: #e8bd63;
-}
-
-.metro-lights {
-  display: flex;
-  gap: 9px;
-}
-
-.metro-light {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #394252;
-  transition: .08s;
-}
-
-.metro-light.active {
-  background: #e8bd63;
-  box-shadow: 0 0 12px #e8bd63;
-  transform: scale(1.35);
-}
-
-
-/* =================================
-   CLASES DE TECLADO
-================================= */
-
-.lessons-panel {
-  margin: 22px 0;
-  padding: 22px;
-  border: 1px solid #394b65;
-  border-radius: 16px;
-  background: linear-gradient(145deg, #172438, #0b111d);
-  box-shadow: 0 10px 30px #0005;
-}
-
-.lesson-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 22px;
-}
-
-.lesson-subtitle {
-  color: #e8bd63;
-  font-size: 10px;
-  letter-spacing: 2px;
-}
-
-.lesson-heading h2 {
-  margin: 5px 0 0;
-  color: white;
-  font-size: 20px;
-}
-
-.lesson-level {
-  color: #e8bd63;
-  border: 1px solid #a87927;
-  padding: 7px 10px;
-  border-radius: 20px;
-  font-size: 10px;
-}
-
-.lesson-label {
-  display: block;
-  color: #aebbd0;
-  font-size: 11px;
-  margin-bottom: 8px;
-}
-
-.chord-select {
-  width: 100%;
-  padding: 14px;
-  background: #0b111d;
-  color: #e8bd63;
-  border: 1px solid #53647c;
-  border-radius: 9px;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.hand-selector {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.hand-btn {
-  padding: 12px 5px;
-  border: 1px solid #40516b;
-  border-radius: 8px;
-  background: #101a2a;
-  color: #c5d0df;
-  font-size: 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.hand-btn.active {
-  background: linear-gradient(145deg, #e8bd63, #a87927);
-  color: #17120a;
-  border-color: #f5d68f;
-}
-
-.chord-information {
-  margin-top: 20px;
-  padding: 18px;
-  background: #090f1a;
-  border-radius: 12px;
-  text-align: center;
-}
-
-.chord-information h3 {
-  color: #e8bd63;
-  margin: 0 0 10px;
-  font-size: 20px;
-}
-
-#chordNotes {
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-  margin: 8px;
-}
-
-#fingerInfo {
-  color: #aebbd0;
-  font-size: 13px;
-}
-
-.chord-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.chord-actions button {
-  flex: 1;
-  padding: 14px 8px;
-  border: none;
-  border-radius: 9px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-#listenChord {
-  background: linear-gradient(145deg, #e8bd63, #a87927);
-  color: #17120a;
-}
-
-#stopChord {
-  background: #29374b;
-  color: white;
-}
-
-.lesson-tip {
-  color: #9eacc0;
-  text-align: center;
-  font-size: 12px;
-  margin: 17px 0 0;
-}
-
-/* Teclas iluminadas por la lección */
-.white-key.lesson-highlight {
-  background: linear-gradient(
-    to bottom,
-    #fff0b9,
-    #e8bd63 75%,
-    #b77b25
-  ) !important;
-  box-shadow: inset 0 0 12px #fff4a5;
-}
-
-.black-key.lesson-highlight {
-  background: linear-gradient(
-    to bottom,
-    #f9d77d,
-    #a87927
-  ) !important;
-  box-shadow: 0 0 15px #e8bd63;
-}
-
-@media(max-width: 600px) {
-  .lessons-panel {
-    padding: 15px;
+  .control-btn {
+    width: 46px;
+    height: 43px;
   }
 
   .hand-selector {
-    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   .hand-btn {
-    font-size: 12px;
+    font-size: 8px;
+    padding: 10px 2px;
   }
 
-  .chord-actions {
-    flex-direction: column;
+  .chord-actions button {
+    font-size: 10px;
+  }
+
+  .keyboard {
+    height: 165px;
+  }
+
+  .lesson-heading h2 {
+    font-size: 16px;
+  }
+}
+
+/* =====================================================
+   TABLETS
+===================================================== */
+
+@media (min-width: 651px) and (max-width: 950px) {
+
+  .piano-app {
+    padding: 17px;
+  }
+
+  .control-panel {
+    gap: 17px;
+  }
+
+  .lessons-panel {
+    padding: 18px;
+  }
+
+  .keyboard {
+    height: 245px;
+  }
+}
+
+/* =====================================================
+   MEJOR RESPUESTA TÁCTIL
+===================================================== */
+
+button,
+select,
+input {
+  touch-action: manipulation;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
+/* Respetar preferencias de movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
