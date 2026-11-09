@@ -477,3 +477,180 @@ input:focus-visible {
     animation-duration: 0.01ms !important;
   }
 }
+
+
+
+/* ==========================================
+   🎹 PIANO COMPLETO EN CELULAR HORIZONTAL
+========================================== */
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+
+  html,
+  body {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 3px;
+    overflow-x: hidden;
+  }
+
+  .piano-app {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .top-bar {
+    min-height: auto;
+    padding: 3px 5px 7px;
+  }
+
+  .logo {
+    font-size: 13px;
+  }
+
+  .logo-icon {
+    font-size: 23px;
+  }
+
+  .display {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+
+  .control-panel {
+    margin: 7px 0;
+    padding: 8px;
+    gap: 10px;
+  }
+
+  .control-btn {
+    height: 35px;
+    width: 40px;
+  }
+
+  .slider-control {
+    min-width: 90px;
+    gap: 5px;
+  }
+
+  input[type="range"] {
+    width: 95px;
+  }
+
+  .metronome-panel {
+    margin: 7px 0;
+    padding: 9px;
+  }
+
+  .metro-title {
+    margin-bottom: 7px;
+  }
+
+  .lessons-panel {
+    margin: 8px 0;
+    padding: 10px;
+  }
+
+  .lesson-heading {
+    margin-bottom: 9px;
+  }
+
+  .hand-selector {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .chord-information {
+    margin-top: 10px;
+    padding: 9px;
+  }
+
+  .chord-actions {
+    margin-top: 8px;
+  }
+
+  .keyboard-frame {
+    padding: 7px;
+    width: 100%;
+  }
+
+  .keyboard-top {
+    padding-bottom: 6px;
+  }
+
+  /* LAS 48 TECLAS SE AJUSTAN AL ANCHO COMPLETO */
+  .piano-container {
+    width: 100%;
+    overflow: hidden;
+    padding: 2px 0 5px;
+  }
+
+  .keyboard {
+    width: 100%;
+    min-width: 0;
+    height: clamp(105px, 34vh, 190px);
+    overflow: hidden;
+  }
+
+  .white-key {
+    min-width: 0;
+  }
+
+  .black-key {
+    width: 2.15%;
+    height: 62%;
+  }
+
+  .key-label {
+    font-size: clamp(6px, 1.2vw, 9px);
+    bottom: 4px;
+  }
+
+  #status {
+    margin: 4px 0;
+    font-size: 9px;
+  }
+}
+
+/* ==========================================
+   PANTALLAS VERTICALES
+   AVISO PARA GIRAR EL CELULAR
+========================================== */
+
+@media screen and (max-width: 650px) and (orientation: portrait) {
+
+  .keyboard-frame::before {
+    content: "↻ GIRA TU CELULAR EN POSICIÓN HORIZONTAL PARA VER EL PIANO COMPLETO";
+    display: block;
+    margin: 0 0 10px;
+    padding: 10px 8px;
+    color: #ffe4a1;
+    background: #e8bd6318;
+    border: 1px solid #e8bd6355;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1.5;
+    letter-spacing: .5px;
+  }
+
+  .piano-container {
+    overflow: hidden;
+  }
+
+  .keyboard {
+    min-width: 0;
+    width: 100%;
+    height: 125px;
+  }
+
+  .black-key {
+    width: 2.15%;
+  }
+}
+
+
