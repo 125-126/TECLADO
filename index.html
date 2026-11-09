@@ -3,17 +3,159 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+  >
+
   <meta name="theme-color" content="#090d16">
-  <title>Yamaha Style Piano</title>
+
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>Grand Piano - Aula Musical</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <!-- ADAPTACIÓN HORIZONTAL DE TODA LA PÁGINA -->
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+    }
+
+    /* CELULAR EN POSICIÓN VERTICAL:
+       GIRAR TODA LA APLICACIÓN */
+    @media screen and (max-width: 900px) and (orientation: portrait) {
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        min-height: 100%;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .piano-app {
+        position: fixed !important;
+
+        top: 0 !important;
+        left: 100vw !important;
+
+        width: 100vh !important;
+        height: 100vw !important;
+
+        max-width: none !important;
+        min-height: 0 !important;
+
+        margin: 0 !important;
+
+        border-radius: 0 !important;
+
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+
+        transform: rotate(90deg) !important;
+        transform-origin: top left !important;
+
+        padding: 8px !important;
+
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .keyboard-frame {
+        width: 100% !important;
+      }
+
+      .piano-container {
+        width: 100% !important;
+        overflow: hidden !important;
+      }
+
+      .keyboard {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 28vh !important;
+      }
+
+      .white-key {
+        min-width: 0 !important;
+      }
+
+      .black-key {
+        width: 2.15% !important;
+      }
+
+      .hand-selector {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+
+      .chord-actions {
+        flex-direction: row !important;
+      }
+    }
+
+    /* CELULAR EN POSICIÓN HORIZONTAL REAL */
+    @media screen and (max-width: 900px) and (orientation: landscape) {
+
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        padding: 0 !important;
+      }
+
+      .piano-app {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 8px !important;
+        border-radius: 0 !important;
+      }
+
+      .keyboard {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 28vh !important;
+      }
+
+      .piano-container {
+        overflow: hidden !important;
+      }
+
+      .black-key {
+        width: 2.15% !important;
+      }
+
+      .hand-selector {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+
+      .chord-actions {
+        flex-direction: row !important;
+      }
+    }
+
+  </style>
 </head>
 
 <body>
 
   <main class="piano-app">
 
+    <!-- ENCABEZADO -->
     <header class="top-bar">
+
       <div class="logo">
         <span class="logo-icon">♫</span>
         <span>GRAND PIANO</span>
@@ -23,125 +165,270 @@
         <span class="led"></span>
         <span id="status">READY</span>
       </div>
+
     </header>
 
-<section class="control-panel">
 
-  <div class="control-buttons">
-    <button id="demoBtn" class="control-btn play-btn" type="button">▶</button>
-    <button id="songBtn" class="control-btn song-btn" type="button" title="La bondad de Dios">♫</button>
-    <button id="stopBtn" class="control-btn stop-btn" type="button">■</button>
-  </div>
+    <!-- CONTROLES PRINCIPALES -->
+    <section class="control-panel">
 
-  <div class="slider-control">
-    <span>VOLUME</span>
-    <input id="volume" type="range" min="0" max="1" step="0.01" value="0.65">
-  </div>
+      <div class="control-buttons">
 
-  <div class="slider-control">
-    <span>REVERB</span>
-    <input id="reverb" type="range" min="0" max="1" step="0.01" value="0.25">
-  </div>
+        <!-- DEMO ELIMINADO -->
 
-  <label class="sustain-control">
-    <input id="sustain" type="checkbox">
-    <span class="sustain-switch"></span>
-    SUSTAIN
-  </label>
+        <button
+          id="songBtn"
+          class="control-btn song-btn"
+          type="button"
+          title="La bondad de Dios"
+        >
+          ♫
+        </button>
 
-</section>
+        <button
+          id="stopBtn"
+          class="control-btn stop-btn"
+          type="button"
+          title="Detener"
+        >
+          ■
+        </button>
 
-<!-- METRÓNOMO -->
-<section class="metronome-panel">
-  <div class="metro-title">
-    <span>🥁 METRÓNOMO</span>
-    <span id="bpmValue">120 BPM</span>
-  </div>
-
-  <div class="metro-controls">
-    <button id="metroBtn" class="metro-button" type="button">▶ INICIAR</button>
-
-    <input
-      id="bpm"
-      type="range"
-      min="40"
-      max="240"
-      value="120"
-      step="1"
-    >
-
-    <div class="metro-lights">
-      <span class="metro-light active"></span>
-      <span class="metro-light"></span>
-      <span class="metro-light"></span>
-      <span class="metro-light"></span>
-    </div>
-  </div>
-</section>
-
-
-<!-- CLASES DE TECLADO -->
-<section class="lessons-panel">
-
-  <div class="lesson-heading">
-    <div>
-      <span class="lesson-subtitle">APRENDE Y PRACTICA</span>
-      <h2>♫ CLASES DE TECLADO</h2>
-    </div>
-    <span class="lesson-level">PRINCIPIANTE</span>
-  </div>
-
-  <label class="lesson-label" for="chordSelect">
-    SELECCIONA UN ACORDE
-  </label>
-
-<select id="chordSelect" class="chord-select">
-  <option value="C">DO MAYOR (C)</option>
-  <option value="D">RE MAYOR (D)</option>
-  <option value="E">MI MAYOR (E)</option>
-  <option value="F">FA MAYOR (F)</option>
-  <option value="G">SOL MAYOR (G)</option>
-  <option value="A">LA MAYOR (A)</option>
-  <option value="B">SI MAYOR (B)</option>
-</select>
-
-  <div class="hand-selector">
-    <button class="hand-btn active" data-hand="right">MANO DERECHA</button>
-    <button class="hand-btn" data-hand="left">MANO IZQUIERDA</button>
-    <button class="hand-btn" data-hand="both">AMBAS MANOS</button>
-  </div>
-
-  <div class="chord-information">
-    <h3 id="chordName">DO MAYOR</h3>
-    <p id="chordNotes">DO - MI - SOL</p>
-    <p id="fingerInfo">Dedos: 1 - 3 - 5</p>
-  </div>
-
-  <div class="chord-actions">
-    <button id="listenChord" type="button">▶ ESCUCHAR ACORDE</button>
-    <button id="stopChord" type="button">■ DETENER</button>
-  </div>
-
-  <p class="lesson-tip">
-    Observa las teclas doradas y practica la posición de tus dedos.
-  </p>
-
-</section>
-
-
-    <section class="keyboard-frame">
-      <div class="keyboard-top">
-        <span>88 KEY DIGITAL PIANO</span>
-        <span>4 OCTAVES</span>
       </div>
+
+
+      <div class="slider-control">
+        <span>VOLUME</span>
+
+        <input
+          id="volume"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.65"
+        >
+      </div>
+
+
+      <div class="slider-control">
+        <span>REVERB</span>
+
+        <input
+          id="reverb"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.25"
+        >
+      </div>
+
+
+      <label class="sustain-control">
+
+        <input id="sustain" type="checkbox">
+
+        <span class="sustain-switch"></span>
+
+        SUSTAIN
+
+      </label>
+
+    </section>
+
+
+    <!-- METRÓNOMO -->
+    <section class="metronome-panel">
+
+      <div class="metro-title">
+
+        <span>🥁 METRÓNOMO</span>
+
+        <span id="bpmValue">120 BPM</span>
+
+      </div>
+
+
+      <div class="metro-controls">
+
+        <button
+          id="metroBtn"
+          class="metro-button"
+          type="button"
+        >
+          ▶ INICIAR
+        </button>
+
+
+        <input
+          id="bpm"
+          type="range"
+          min="40"
+          max="240"
+          value="120"
+          step="1"
+        >
+
+
+        <div class="metro-lights">
+
+          <span class="metro-light active"></span>
+          <span class="metro-light"></span>
+          <span class="metro-light"></span>
+          <span class="metro-light"></span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CLASES DE TECLADO -->
+    <section class="lessons-panel">
+
+      <div class="lesson-heading">
+
+        <div>
+
+          <span class="lesson-subtitle">
+            APRENDE Y PRACTICA
+          </span>
+
+          <h2>♫ CLASES DE TECLADO</h2>
+
+        </div>
+
+        <span class="lesson-level">
+          PRINCIPIANTE
+        </span>
+
+      </div>
+
+
+      <label
+        class="lesson-label"
+        for="chordSelect"
+      >
+        SELECCIONA UN ACORDE
+      </label>
+
+
+      <select
+        id="chordSelect"
+        class="chord-select"
+      >
+
+        <option value="C">DO MAYOR (C)</option>
+        <option value="D">RE MAYOR (D)</option>
+        <option value="E">MI MAYOR (E)</option>
+        <option value="F">FA MAYOR (F)</option>
+        <option value="G">SOL MAYOR (G)</option>
+        <option value="A">LA MAYOR (A)</option>
+        <option value="B">SI MAYOR (B)</option>
+
+      </select>
+
+
+      <div class="hand-selector">
+
+        <button
+          class="hand-btn active"
+          data-hand="right"
+          type="button"
+        >
+          MANO DERECHA
+        </button>
+
+        <button
+          class="hand-btn"
+          data-hand="left"
+          type="button"
+        >
+          MANO IZQUIERDA
+        </button>
+
+        <button
+          class="hand-btn"
+          data-hand="both"
+          type="button"
+        >
+          AMBAS MANOS
+        </button>
+
+      </div>
+
+
+      <div class="chord-information">
+
+        <h3 id="chordName">DO MAYOR</h3>
+
+        <p id="chordNotes">
+          DO - MI - SOL
+        </p>
+
+        <p id="fingerInfo">
+          Dedos: 1 - 3 - 5
+        </p>
+
+      </div>
+
+
+      <div class="chord-actions">
+
+        <button
+          id="listenChord"
+          type="button"
+        >
+          ▶ ESCUCHAR ACORDE
+        </button>
+
+        <button
+          id="stopChord"
+          type="button"
+        >
+          ■ DETENER
+        </button>
+
+      </div>
+
+
+      <p class="lesson-tip">
+        Observa las teclas doradas y practica la posición de tus dedos.
+      </p>
+
+    </section>
+
+
+    <!-- PIANO COMPLETO -->
+    <section class="keyboard-frame">
+
+      <div class="keyboard-top">
+
+        <span>GRAND DIGITAL PIANO</span>
+
+        <span>4 OCTAVAS</span>
+
+      </div>
+
 
       <div class="piano-container">
-        <div id="keyboard" class="keyboard"></div>
+
+        <div
+          id="keyboard"
+          class="keyboard"
+        ></div>
+
       </div>
+
     </section>
+
 
   </main>
 
+
+  <!-- MOTOR DEL PIANO -->
   <script src="script.js"></script>
 
 </body>
