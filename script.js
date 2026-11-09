@@ -1,3 +1,4 @@
+
 const keyboard = document.getElementById("keyboard");
 const statusText = document.getElementById("status");
 
@@ -16,10 +17,7 @@ let reverbSend = null;
 let wetGains = [];
 let compressor = null;
 
-let voices = new Map();
-let demoRunning = false;
-let demoToken = 0;
-
+const voices = new Map();
 const keyElements = {};
 const whiteNotes = [];
 const pressedKeys = new Set();
@@ -50,7 +48,10 @@ function initAudio() {
     return;
   }
 
-  audio = new (window.AudioContext || window.webkitAudioContext)();
+  const AudioContextClass =
+    window.AudioContext || window.webkitAudioContext;
+
+  audio = new AudioContextClass();
 
   master = audio.createGain();
   dryGain = audio.createGain();
@@ -73,7 +74,6 @@ function initAudio() {
 
   dryGain.connect(master);
 
-  // Reverberación
   const delays = [0.105, 0.18, 0.265];
   const levels = [0.20, 0.12, 0.07];
 
@@ -144,9 +144,9 @@ function buildKeyboard() {
   keyboard.innerHTML = "";
   whiteNotes.length = 0;
 
-  for (const midi in keyElements) {
+  Object.keys(keyElements).forEach(midi => {
     delete keyElements[midi];
-  }
+  });
 
   for (let midi = firstMidi; midi <= lastMidi; midi++) {
     if (!isWhite(midi)) continue;
@@ -189,7 +189,7 @@ function buildKeyboard() {
 }
 
 // ======================================
-// EVENTOS DE LAS TECLAS
+// EVENTOS TÁCTILES
 // ======================================
 
 function addTouchEvents(key, midi) {
@@ -200,7 +200,10 @@ function addTouchEvents(key, midi) {
 
     const id = "pointer-" + midi + "-" + e.pointerId;
 
-    key.setPointerCapture(e.pointerId);
+    try {
+      key.setPointerCapture(e.pointerId);
+    } catch (error) {}
+
     playNote(midi, id);
   });
 
@@ -214,7 +217,7 @@ function addTouchEvents(key, midi) {
 }
 
 // ======================================
-// SONIDO DE PIANO
+// SONIDO DEL PIANO
 // ======================================
 
 function playNote(midi, id) {
@@ -240,23 +243,13 @@ function playNote(midi, id) {
   filter.Q.value = 0.45;
 
   voiceGain.gain.setValueAtTime(0.0001, now);
-
-  voiceGain.gain.exponentialRampToValueAtTime(
-    0.25,
-    now + 0.018
-  );
-
-  voiceGain.gain.exponentialRampToValueAtTime(
-    0.105,
-    now + 0.75
-  );
+  voiceGain.gain.exponentialRampToValueAtTime(0.25, now + 0.018);
+  voiceGain.gain.exponentialRampToValueAtTime(0.105, now + 0.75);
 
   filter.connect(voiceGain);
-
   voiceGain.connect(dryGain);
   voiceGain.connect(reverbSend);
 
-  // Armónicos
   const harmonics = [
     { multiple: 1, level: 0.78 },
     { multiple: 2, level: 0.29 },
@@ -273,14 +266,12 @@ function playNote(midi, id) {
     const partialGain = audio.createGain();
 
     osc.type = "sine";
-
     osc.frequency.setValueAtTime(
       freq * partial.multiple,
       now
     );
 
     partialGain.gain.setValueAtTime(partial.level, now);
-
     partialGain.gain.exponentialRampToValueAtTime(
       Math.max(
         0.0001,
@@ -296,7 +287,6 @@ function playNote(midi, id) {
     oscillators.push(osc);
   });
 
-  // Ataque del martillo
   const attackOsc = audio.createOscillator();
   const attackGain = audio.createGain();
 
@@ -317,7 +307,6 @@ function playNote(midi, id) {
 
   oscillators.push(attackOsc);
 
-  // Evita errores con notas fuera del teclado visible
   if (keyElements[midi]) {
     keyElements[midi].classList.add("active");
   }
@@ -347,31 +336,25 @@ function releaseVoice(id) {
 
   try {
     voice.gain.gain.cancelScheduledValues(now);
-
-    voice.gain.gain.setTargetAtTime(
-      0.0001,
-      now,
-      0.22
-    );
+    voice.gain.gain.setTargetAtTime(0.0001, now, 0.22);
 
     voice.oscillators.forEach(osc => {
       try {
         osc.stop(now + 1.6);
-      } catch (e) {}
+      } catch (error) {}
     });
 
     setTimeout(() => {
       voice.oscillators.forEach(osc => {
         try {
           osc.disconnect();
-        } catch (e) {}
+        } catch (error) {}
       });
 
       try {
         voice.gain.disconnect();
         voice.filter.disconnect();
-      } catch (e) {}
-
+      } catch (error) {}
     }, 1800);
 
   } catch (error) {}
@@ -379,7 +362,7 @@ function releaseVoice(id) {
   voices.delete(id);
 
   const stillPlaying = [...voices.values()].some(
-    v => v.midi === voice.midi
+    voice => voice.midi === voice.midi
   );
 
   if (!stillPlaying && keyElements[voice.midi]) {
@@ -436,7 +419,6 @@ window.addEventListener("keydown", e => {
   if (midi === undefined) return;
 
   e.preventDefault();
-
   initAudio();
 
   pressedKeys.add(key);
@@ -451,92 +433,6 @@ window.addEventListener("keyup", e => {
   pressedKeys.delete(key);
   noteOff("computer-" + key);
 });
-
-// ======================================
-// DEMOSTRACIÓN
-// ======================================
-
-const demo = [
-  { chord: [48, 52, 55], melody: [60, 64, 67, 64] },
-  { chord: [43, 47, 50], melody: [67, 69, 67, 64] },
-  { chord: [45, 48, 52], melody: [64, 67, 72, 69] },
-  { chord: [41, 45, 48], melody: [69, 67, 64, 60] },
-
-  { chord: [48, 52, 55], melody: [60, 62, 64, 67] },
-  { chord: [43, 47, 50], melody: [67, 69, 72, 71] },
-  { chord: [45, 48, 52], melody: [72, 71, 69, 67] },
-  { chord: [41, 45, 48], melody: [64, 60, 64, 60] },
-
-  { chord: [48, 52, 55], melody: [60, 64, 67, 72] },
-  { chord: [43, 47, 50], melody: [71, 69, 67, 64] },
-  { chord: [45, 48, 52], melody: [69, 72, 76, 72] },
-  { chord: [41, 45, 48], melody: [72, 69, 67, 64, 60] }
-];
-
-async function startDemo() {
-  stopSong();
-  stopDemo();
-
-  initAudio();
-
-  document.getElementById("sustain").checked = false;
-
-  demoRunning = true;
-  const token = ++demoToken;
-
-  statusText.textContent = "PLAYING";
-
-  const beat = 500;
-
-  for (let i = 0; i < demo.length; i++) {
-    if (!demoRunning || token !== demoToken) return;
-
-    const part = demo[i];
-
-    part.chord.forEach((midi, index) => {
-      const id = "demo-chord-" + i + "-" + index;
-
-      playNote(midi, id);
-      setTimeout(() => noteOff(id), beat * 3.5);
-    });
-
-    const interval = beat * 4 / part.melody.length;
-
-    for (let j = 0; j < part.melody.length; j++) {
-      if (!demoRunning || token !== demoToken) return;
-
-      const midi = part.melody[j];
-      const id = "demo-melody-" + i + "-" + j;
-
-      playNote(midi, id);
-
-      await sleep(interval * 0.85);
-      noteOff(id);
-
-      await sleep(interval * 0.15);
-    }
-
-    await sleep(100);
-  }
-
-  if (token === demoToken) {
-    demoRunning = false;
-    statusText.textContent = "READY";
-  }
-}
-
-function stopDemo() {
-  demoRunning = false;
-  demoToken++;
-
-  for (const id of [...voices.keys()]) {
-    if (id.startsWith("demo-")) {
-      releaseVoice(id);
-    }
-  }
-
-  statusText.textContent = "STOPPED";
-}
 
 // ======================================
 // CANCIÓN: LA BONDAD DE DIOS
@@ -615,8 +511,8 @@ async function playSongSection(chords, token) {
 }
 
 async function startSong() {
-  stopDemo();
   stopSong();
+  stopLessonChord();
 
   initAudio();
 
@@ -706,11 +602,6 @@ function stopSong() {
   }
 }
 
-// ======================================
-// BOTONES DE DEMOSTRACIÓN Y CANCIÓN
-// ======================================
-
-document.getElementById("demoBtn").addEventListener("click", startDemo);
 document.getElementById("songBtn").addEventListener("click", startSong);
 
 // ======================================
@@ -739,16 +630,11 @@ function metroClick(accent = false) {
   osc.frequency.setValueAtTime(accent ? 1500 : 1000, now);
 
   gain.gain.setValueAtTime(0.0001, now);
-
   gain.gain.exponentialRampToValueAtTime(
     accent ? 0.45 : 0.25,
     now + 0.004
   );
-
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    now + 0.065
-  );
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.065);
 
   osc.connect(gain);
   gain.connect(metroAudio.destination);
@@ -770,7 +656,6 @@ function metroPulse() {
   });
 
   metroClick(beatPosition === 0);
-
   metroBeat++;
 }
 
@@ -793,12 +678,9 @@ function startMetronome() {
 
   metroPulse();
 
-  const bpm = Number(bpmSlider.value);
-  const interval = 60000 / bpm;
+  const interval = 60000 / Number(bpmSlider.value);
 
-  metroTimer = setInterval(() => {
-    metroPulse();
-  }, interval);
+  metroTimer = setInterval(metroPulse, interval);
 }
 
 function stopMetronome() {
@@ -833,6 +715,7 @@ metroBtn.addEventListener("click", () => {
   if (metroRunning) {
     stopMetronome();
   } else {
+    initAudio();
     startMetronome();
   }
 });
@@ -840,7 +723,7 @@ metroBtn.addEventListener("click", () => {
 bpmSlider.addEventListener("input", updateMetronomeTempo);
 
 // ======================================
-// CLASES DE TECLADO - SIETE ACORDES MAYORES
+// CLASES DE TECLADO - ACORDES MAYORES
 // ======================================
 
 const chordLessons = {
@@ -851,7 +734,6 @@ const chordLessons = {
     leftFingers: "5 - 2 - 1",
     rightFingers: "1 - 3 - 5"
   },
-
   D: {
     name: "RE MAYOR",
     left: [50, 57, 62],
@@ -859,7 +741,6 @@ const chordLessons = {
     leftFingers: "5 - 2 - 1",
     rightFingers: "1 - 3 - 5"
   },
-
   E: {
     name: "MI MAYOR",
     left: [52, 59, 64],
@@ -867,7 +748,6 @@ const chordLessons = {
     leftFingers: "5 - 2 - 1",
     rightFingers: "1 - 3 - 5"
   },
-
   F: {
     name: "FA MAYOR",
     left: [53, 60, 65],
@@ -875,7 +755,6 @@ const chordLessons = {
     leftFingers: "5 - 2 - 1",
     rightFingers: "1 - 3 - 5"
   },
-
   G: {
     name: "SOL MAYOR",
     left: [55, 62, 67],
@@ -883,7 +762,6 @@ const chordLessons = {
     leftFingers: "5 - 2 - 1",
     rightFingers: "1 - 3 - 5"
   },
-
   A: {
     name: "LA MAYOR",
     left: [57, 64, 69],
@@ -891,7 +769,6 @@ const chordLessons = {
     leftFingers: "5 - 2 - 1",
     rightFingers: "1 - 3 - 5"
   },
-
   B: {
     name: "SI MAYOR",
     left: [59, 66, 71],
@@ -926,19 +803,14 @@ function getChordNotes() {
 
   if (!chord) return [];
 
-  if (selectedHand === "left") {
-    return chord.left;
-  }
+  if (selectedHand === "left") return chord.left;
+  if (selectedHand === "right") return chord.right;
 
-  if (selectedHand === "right") {
-    return chord.right;
-  }
-
-  return [...new Set([...chord.left, ...chord.right])];
+  return [...chord.left, ...chord.right];
 }
 
 // ======================================
-// ACTUALIZAR INFORMACIÓN DE LA CLASE
+// ACTUALIZAR INFORMACIÓN
 // ======================================
 
 function updateChordLesson() {
@@ -948,9 +820,7 @@ function updateChordLesson() {
 
   chordName.textContent = chord.name;
 
-  const notes = getChordNotes();
-
-  const names = notes.map(midi => {
+  const names = getChordNotes().map(midi => {
     return noteNames[midi % 12];
   });
 
@@ -959,11 +829,9 @@ function updateChordLesson() {
   if (selectedHand === "left") {
     fingerInfo.textContent =
       "MANO IZQUIERDA | Dedos: " + chord.leftFingers;
-
   } else if (selectedHand === "right") {
     fingerInfo.textContent =
       "MANO DERECHA | Dedos: " + chord.rightFingers;
-
   } else {
     fingerInfo.textContent =
       "IZQUIERDA: " + chord.leftFingers +
@@ -974,21 +842,15 @@ function updateChordLesson() {
 }
 
 // ======================================
-// ILUMINAR LAS TECLAS DEL ACORDE
+// ILUMINAR TECLAS
 // ======================================
 
 function highlightChordKeys() {
   document.querySelectorAll(".white-key, .black-key")
-    .forEach(key => {
-      key.classList.remove("lesson-highlight");
-    });
+    .forEach(key => key.classList.remove("lesson-highlight"));
 
-  const notes = getChordNotes();
-
-  notes.forEach(midi => {
-    const key = document.querySelector(
-      `[data-midi="${midi}"]`
-    );
+  getChordNotes().forEach(midi => {
+    const key = keyElements[midi];
 
     if (key) {
       key.classList.add("lesson-highlight");
@@ -997,14 +859,18 @@ function highlightChordKeys() {
 }
 
 // ======================================
-// DETENER ACORDE DE LA CLASE
+// DETENER ACORDE DE CLASE
 // ======================================
 
 function stopLessonChord() {
   lessonTimers.forEach(timer => clearTimeout(timer));
   lessonTimers = [];
 
-  lessonVoices.forEach(id => noteOff(id));
+  lessonVoices.forEach(id => {
+    // Liberación inmediata, aunque sustain esté activado.
+    releaseVoice(id);
+  });
+
   lessonVoices = [];
 }
 
@@ -1014,7 +880,6 @@ function stopLessonChord() {
 
 function playLessonChord() {
   stopLessonChord();
-
   initAudio();
 
   const notes = getChordNotes();
@@ -1023,11 +888,10 @@ function playLessonChord() {
     const id = "lesson-chord-" + Date.now() + "-" + index;
 
     lessonVoices.push(id);
-
     playNote(midi, id);
 
     const timer = setTimeout(() => {
-      noteOff(id);
+      releaseVoice(id);
     }, 2000);
 
     lessonTimers.push(timer);
@@ -1081,16 +945,22 @@ stopChordBtn.addEventListener("click", () => {
 // ======================================
 
 document.getElementById("stopBtn").addEventListener("click", () => {
-  stopDemo();
   stopSong();
   stopMetronome();
   stopLessonChord();
+
+  // Apagar también cualquier nota que siga sostenida.
+  for (const id of [...voices.keys()]) {
+    releaseVoice(id);
+  }
+
+  document.getElementById("sustain").checked = false;
 
   statusText.textContent = "TODO DETENIDO";
 });
 
 // ======================================
-// EVITAR NOTAS PEGADAS AL CAMBIAR DE VENTANA
+// EVITAR NOTAS PEGADAS
 // ======================================
 
 window.addEventListener("blur", () => {
@@ -1107,3 +977,5 @@ window.addEventListener("blur", () => {
 
 buildKeyboard();
 updateChordLesson();
+
+statusText.textContent = "READY";
